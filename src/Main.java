@@ -1,6 +1,11 @@
+import java.awt.Window.Type;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /*
  * Reference: https://sites.google.com/site/gson/gson-user-guide
@@ -15,6 +20,9 @@ public class Main {
 		DeserializationObject();
 		SerializationArray();
 		DeserializationArray();
+		SerializationCollections();
+		DeserializationCollections();
+
 	}
 
 	private static void SerializationPrimitives() {
@@ -43,16 +51,16 @@ public class Main {
 	private static void SerializationObject() {
 		BagOfPrimitives obj = new BagOfPrimitives();
 		String json = gson.toJson(obj);
-		System.out.println(json); // {"value1":1,"value2":"abc"}
+		System.out.println(json); // {"value1":1,"value2":"abc","value3":[1,2,3,4]}
 	}
 
 	private static void DeserializationObject() {
 		BagOfPrimitives obj = new BagOfPrimitives();
 		String json = gson.toJson(obj);
-		System.out.println(json); // {"value1":1,"value2":"abc"}
+		System.out.println(json); // {"value1":1,"value2":"abc","value3":[1,2,3,4]}
 		BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 		String json2 = gson.toJson(obj2);
-		System.out.println(json2); // {"value1":1,"value2":"abc"}
+		System.out.println(json2); // {"value1":1,"value2":"abc","value3":[1,2,3,4]}
 	}
 
 	private static void SerializationArray() {
@@ -75,6 +83,29 @@ public class Main {
 			// [2, 3]
 			System.out.println(Arrays.toString(singleArray));
 		}
+	}
 
+	private static void SerializationCollections() {
+		List<Integer> ints = new LinkedList<>();
+		ints.add(1);
+		ints.add(2);
+		ints.add(3);
+		ints.add(4);
+		ints.add(5);
+		String json = gson.toJson(ints);
+		System.out.println(json); // [1,2,3,4,5]
+	}
+
+	private static void DeserializationCollections() {
+		List<Integer> ints = new LinkedList<>();
+		ints.add(1);
+		ints.add(2);
+		ints.add(3);
+		ints.add(4);
+		ints.add(5);
+		String json = gson.toJson(ints);
+		java.lang.reflect.Type collectionType = new TypeToken<Collection<Integer>>(){}.getType();
+		List<Integer> ints2 = gson.fromJson(json, collectionType);
+		System.out.println(ints2);
 	}
 }
