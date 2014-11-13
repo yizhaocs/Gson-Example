@@ -106,6 +106,6 @@ public class Main {
 		String json = gson.toJson(ints);
 		java.lang.reflect.Type collectionType = new TypeToken<Collection<Integer>>(){}.getType();
 		List<Integer> ints2 = gson.fromJson(json, collectionType);
-		System.out.println(ints2);
+		System.out.println(ints2); // [1, 2, 3, 4, 5]
 	}
 }
